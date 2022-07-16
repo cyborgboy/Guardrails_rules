@@ -3,7 +3,7 @@ rules:
     pattern: flask.render_template_string(...)
     metadata:
 	grId: GR0011
-	grTitle: Usage of rendering template without escaping user input
+	grTitle: Usage of rendering template without escaping/ filtering user input
 	grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/insecure_processing_of_data
     severity: ERROR
     message: Found a template created with string formatting. This is susceptible to server-side template injection.
