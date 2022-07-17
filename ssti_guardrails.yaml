@@ -1,11 +1,48 @@
 rules:
   - id: custom-guardrails-test-rule
     pattern: flask.render_template_string(...)
+    pattern-either:
+      - pattern: |
+          $V = "...".format(...)
+          ...
+          flask.render_template_string($V, ...)
+      - pattern: |
+          $V = "...".format(...)
+          ...
+          return flask.render_template_string($V, ...), $MORE
+      - pattern: |
+          $V = "..." % $S
+          ...
+          flask.render_template_string($V, ...)
+      - pattern: |
+          $V = "..." % $S
+          ...
+          return flask.render_template_string($V, ...), $MORE
+      - pattern: |
+          $V = "..."
+          ...
+          $V += $O
+          ...
+          flask.render_template_string($V, ...)
+      - pattern: |
+          $V = "..."
+          ...
+          $V += $O
+          ...
+          return flask.render_template_string($V, ...), $MORE
+      - pattern: |
+          $V = f"...{$X}..."
+          ...
+          flask.render_template_string($V, ...)
+      - pattern: |
+          $V = f"...{$X}..."
+          ...
+          return flask.render_template_string($V, ...), $CODE
     metadata:
 	grId: GR0011
-	grTitle: Usage of rendering template without escaping/ filtering user input
-	grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/insecure_processing_of_data
+	grTitle: Possible Template Injection (SSTI)
+	grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/Template_injection
     severity: ERROR
-    message: Found a template created with string formatting. This is susceptible to server-side template injection.
+    message: Found a Template rendering function that accepts user input without filtering this can lead to remote code execution
     languages:
       - python
