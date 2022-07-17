@@ -1,7 +1,7 @@
 rules:
-  - id: custom-guardrails-test-rule
-    pattern: flask.render_template_string(...)
+  - id: dangerous-template-string
     pattern-either:
+      - pattern: flask.render_template_string(...)
       - pattern: |
           $V = "...".format(...)
           ...
@@ -38,11 +38,11 @@ rules:
           $V = f"...{$X}..."
           ...
           return flask.render_template_string($V, ...), $CODE
-    metadata:
-	grId: GR0011
-	grTitle: Possible Template Injection (SSTI)
-	grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/Template_injection
-    severity: ERROR
-    message: Found a Template rendering function that accepts user input without filtering this can lead to remote code execution
     languages:
       - python
+    severity: ERROR
+    message: Found a Template rendering function that accepts user input without filtering this can lead to remote code execution
+    metadata:
+        grId: GR0011
+        grTitle: Possible Template Injection (SSTI)
+        grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/Template_injection.
