@@ -1,5 +1,5 @@
 rules:
-  - id: dangerous-template-string
+  - id: custom-guardrails-test-rule
     pattern-either:
       - pattern: flask.render_template_string(...)
       - pattern: |
