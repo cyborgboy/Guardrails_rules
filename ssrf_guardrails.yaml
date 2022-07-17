@@ -464,5 +464,5 @@ rules:
     severity: ERROR
     metadata:
       grId: GR0011
-      grTitle: Insecure Processing of Data
+      grTitle: Possible Server-Side Request Forgery (SSRF)
       grDocs: https://docs.guardrails.io/docs/vulnerabilities/python/insecure_processing_of_data/
